@@ -1,12 +1,13 @@
 FROM boritzio/docker-base
 
-# add oracle java
-RUN echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections 
-RUN add-apt-repository -y ppa:webupd8team/java
-RUN apt-get update
-RUN apt-get install -y oracle-java7-installer
-RUN rm -rf /var/cache/oracle-jdk7-installer
+RUN \
+  echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
+  add-apt-repository -y ppa:webupd8team/java && \
+  apt-get update && \
+  apt-get install -y oracle-java8-installer && \
+  rm -rf /var/lib/apt/lists/* && \
+  rm -rf /var/cache/oracle-jdk8-installer
 
 #make sure that's the java everyone uses
-RUN update-alternatives --set java /usr/lib/jvm/java-7-oracle/jre/bin/java
-ENV JAVA_HOME /usr/lib/jvm/java-7-oracle
+RUN update-alternatives --set java /usr/lib/jvm/java-8-oracle/jre/bin/java
+ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
